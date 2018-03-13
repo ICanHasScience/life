@@ -8,19 +8,63 @@
 	</head>
 	<body>
 		<h1>Welcome to the game of life!</h1>
-		<canvas id='main' width='800' height='600'></canvas>
+		<canvas id='main' width='800' height='400'></canvas>
+		<div>
+			<label>X Position</label>
+			<input id='xpos' type='text'/>
+		</div>
+		<div>
+			<label>Y Position</label>
+			<input id='ypos' type='text'/>
+		</div>
+		<div>
+			<button onclick=handleButtonClick()>Flip Bip</button>
+		</div>
 		<script>
-			function initializeBips(xSize, ySize) {
+			function initializeBips(xSize, ySize, initialBips) {
 				let newBips = [];
 				for (let x = 0; x < xSize; x++) {
+					let xRow = [];
 					for (let y = 0; y < ySize; y++) {
-						newBips.push({x: x, y: y, alive: false})
+						xRow.push({x: x, y: y, alive: false})
 					}
+					newBips.push(xRow);
 				}
 				return newBips;
 			}
 
-			function populateBips(x, y) {
+			function handleButtonClick() {
+				let x = parseInt(document.getElementById('xpos').value);
+				let y = parseInt(document.getElementById('ypos').value);
+				flipBip(x, y);
+				refreshBoard(ctx, bips);
+			}
+
+			function clearBoard(ctx) {
+				ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+			}
+
+			function drawBoard(ctx, bips) {
+				drawGrid(ctx);
+				for(var xRows of bips) {
+					for(var b of xRows) {
+						drawBip(ctx, {x: b.x, y:b.y, s:scale, value: b.alive});
+					}
+				}
+			}
+
+			function refreshBoard(ctx, bips) {
+				clearBoard(ctx);
+				drawBoard(ctx, bips);
+			}
+
+			function flipBip(x, y) {
+				let newVal = !bips[x][y].alive;
+				bips[x][y] = {x: x, y: y, alive: newVal};
+			}
+
+			function repopulateBips(x, y) {
+
 			}
 
 			let scale = 10;
@@ -28,11 +72,7 @@
 			let xSize = ctx.canvas.width / scale;
 			let ySize = ctx.canvas.height / scale;
 			let bips = initializeBips(xSize, ySize);
-			drawGrid(ctx);
-			drawBip(ctx, {x:5, y:5, s:scale, value: false});
-			for(var b of bips) {
-				drawBip(ctx, {x: b.x, y:b.y, s:scale, value: b.alive});
-			}
+			drawBoard(ctx, bips)
 		</script>
 	</body>
 </html>
