@@ -19,7 +19,10 @@
 			<input id='ypos' type='text'/>
 		</div>
 		<div>
-			<button onclick=handleButtonClick()>Flip Bip</button>
+			<button onclick=handleFlipBipClick()>Flip Bip</button>
+		</div>
+		<div>
+			<button onclick=handleIterationClick()>Iterate</button>
 		</div>
 		<script>
 			function initializeBips(xSize, ySize, initialBips) {
@@ -34,10 +37,15 @@
 				return newBips;
 			}
 
-			function handleButtonClick() {
+			function handleFlipBipClick() {
 				let x = parseInt(document.getElementById('xpos').value);
 				let y = parseInt(document.getElementById('ypos').value);
 				bips = flipBip(x, y, bips);
+				refreshBoard(ctx, bips);
+			}
+
+			function handleIterationClick() {
+				bips = repopulateBips(bips);
 				refreshBoard(ctx, bips);
 			}
 
@@ -66,8 +74,38 @@
 				return newBips;
 			}
 
-			function repopulateBips(x, y) {
+			function livingNeighbors(bipsArray, currentBip) {
+				let neighborsAlive = 0;
+				let xMin = currentBip.x < 1 ? 0 : currentBip.x - 1
+				let yMin = currentBip.y < 1 ? 0 : currentBip.y - 1
+				let xMax = currentBip.x > bipsArray.length - 1 ? bipsArray.length - 2 : currentBip.x + 1;
+				let yMax = currentBip.y > bipsArray[0].length - 1 ? bipsArray[0].length - 2 : currentBip.y + 1;
 
+				for(let x = xMin; x <= xMax; x++ ) {
+					for(let y = yMin; y <= yMax; y++) {
+						console.log('X AND Y VALS:', x, y);
+						neighborsAlive += (bipsArray[x][y].alive * 1);
+					}
+				}
+				return neighborsAlive;
+			}
+
+			function repopulateBips(bipsArray) {
+				let newBips = _.cloneDeep(bipsArray);
+				newBips.forEach( arr => {
+					arr.forEach( bip => {
+						if (bip.alive && livingNeighbors(bipsArray, bip) < 2) {
+							bip.alive = false;
+						} else if (bip.alive && (livingNeighbors(bipsArray, bip) == 2 || livingNeighbors(bipsArray, bip) == 3)) {
+							bip.alive = true;
+						} else if (bip.alive && livingNeighbors(bipsArray, bip) > 3) {
+							bip.alive = false;
+						} else if (!bip.alive && livingNeighbors(bipsArray, bip) == 3) {
+							bip.alive = true;
+						}
+					});
+				});
+				return newBips;
 			}
 
 			let scale = 10;
@@ -75,6 +113,8 @@
 			let xSize = ctx.canvas.width / scale;
 			let ySize = ctx.canvas.height / scale;
 			let bips = initializeBips(xSize, ySize);
+			console.log('BIPS YALL:', bips);
+			console.log('INNER ARRAY:', bips[0]);
 			drawBoard(ctx, bips)
 		</script>
 	</body>
