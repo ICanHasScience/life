@@ -1,4 +1,4 @@
-function drawPixel(ctx, options) {
+function drawBip(ctx, options) {
 	/*******************************
 	 *  Options:                   *
 	 *    x: x position            *

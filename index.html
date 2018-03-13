@@ -4,15 +4,35 @@
 		<title>Game of Life</title>
 		<link rel="stylesheet" href="./styles/styles.css" />
 		<script src="./js/drawGrid.js"></script>
-		<script src="./js/drawPixel.js"></script>
+		<script src="./js/drawBip.js"></script>
 	</head>
 	<body>
 		<h1>Welcome to the game of life!</h1>
-		<canvas id='main' width='400' height='400'></canvas>
+		<canvas id='main' width='800' height='600'></canvas>
 		<script>
+			function initializeBips(xSize, ySize) {
+				let newBips = [];
+				for (let x = 0; x < xSize; x++) {
+					for (let y = 0; y < ySize; y++) {
+						newBips.push({x: x, y: y, alive: false})
+					}
+				}
+				return newBips;
+			}
+
+			function populateBips(x, y) {
+			}
+
+			let scale = 10;
 			let ctx = document.getElementById('main').getContext('2d');
+			let xSize = ctx.canvas.width / scale;
+			let ySize = ctx.canvas.height / scale;
+			let bips = initializeBips(xSize, ySize);
 			drawGrid(ctx);
-			drawPixel(ctx, {x:5, y:5, s:10, value: true});
+			drawBip(ctx, {x:5, y:5, s:scale, value: false});
+			for(var b of bips) {
+				drawBip(ctx, {x: b.x, y:b.y, s:scale, value: b.alive});
+			}
 		</script>
 	</body>
 </html>
