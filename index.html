@@ -4,6 +4,7 @@
 		<title>Game of Life</title>
 		<link rel="stylesheet" href="./styles/styles.css" />
 		<script src="./js/drawGrid.js"></script>
+		<script src="./js/drawPixel.js"></script>
 	</head>
 	<body>
 		<h1>Welcome to the game of life!</h1>
@@ -11,6 +12,7 @@
 		<script>
 			let ctx = document.getElementById('main').getContext('2d');
 			drawGrid(ctx);
+			drawPixel(ctx, {x:5, y:5, s:10, value: true});
 		</script>
 	</body>
 </html>
