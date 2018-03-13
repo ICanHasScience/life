@@ -3,6 +3,7 @@
 	<head>
 		<title>Game of Life</title>
 		<link rel="stylesheet" href="./styles/styles.css" />
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.min.js'></script>
 		<script src="./js/drawGrid.js"></script>
 		<script src="./js/drawBip.js"></script>
 	</head>
@@ -36,7 +37,7 @@
 			function handleButtonClick() {
 				let x = parseInt(document.getElementById('xpos').value);
 				let y = parseInt(document.getElementById('ypos').value);
-				flipBip(x, y);
+				bips = flipBip(x, y, bips);
 				refreshBoard(ctx, bips);
 			}
 
@@ -58,9 +59,11 @@
 				drawBoard(ctx, bips);
 			}
 
-			function flipBip(x, y) {
-				let newVal = !bips[x][y].alive;
-				bips[x][y] = {x: x, y: y, alive: newVal};
+			function flipBip(x, y, bips) {
+				let newBips = _.cloneDeep(bips);
+				let newVal = !newBips[x][y].alive;
+				newBips[x][y] = {x: x, y: y, alive: newVal};
+				return newBips;
 			}
 
 			function repopulateBips(x, y) {
