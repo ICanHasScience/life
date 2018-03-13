@@ -21,7 +21,7 @@ function drawPixel(ctx, options) {
 	 ctx.fillStyle = v ? onColor : offColor;
 
 	 ctx.translate(x * s, y * s);
-
+	 ctx.beginPath();
 	 ctx.rect(0, 0, s, s);
 
 	 ctx.fill();
