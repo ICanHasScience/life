@@ -25,6 +25,13 @@
 			<button onclick=handleIterationClick()>Iterate</button>
 		</div>
 		<script>
+			function handleGridClick(event) {
+				let xPos = Math.floor((Math.floor(event.layerX) - 1)/scale);
+				let yPos = Math.floor((Math.floor(event.layerY) - 2)/scale);
+				bips = flipBip(xPos, yPos, bips);
+				refreshBoard(ctx, bips);
+			}
+
 			function initializeBips(xSize, ySize, initialBips) {
 				let newBips = [];
 				for (let x = 0; x < xSize; x++) {
@@ -109,6 +116,7 @@
 
 			let scale = 10;
 			let ctx = document.getElementById('main').getContext('2d');
+			ctx.canvas.addEventListener("click", handleGridClick);
 			let xSize = ctx.canvas.width / scale;
 			let ySize = ctx.canvas.height / scale;
 			let bips = initializeBips(xSize, ySize);
