@@ -75,15 +75,14 @@
 			}
 
 			function livingNeighbors(bipsArray, currentBip) {
-				let neighborsAlive = 0;
+				let neighborsAlive = -1 * currentBip.alive;
 				let xMin = currentBip.x < 1 ? 0 : currentBip.x - 1
 				let yMin = currentBip.y < 1 ? 0 : currentBip.y - 1
-				let xMax = currentBip.x > bipsArray.length - 1 ? bipsArray.length - 2 : currentBip.x + 1;
-				let yMax = currentBip.y > bipsArray[0].length - 1 ? bipsArray[0].length - 2 : currentBip.y + 1;
+				let xMax = currentBip.x >= bipsArray.length - 1 ? bipsArray.length - 2 : currentBip.x + 1;
+				let yMax = currentBip.y >= bipsArray[0].length - 1 ? bipsArray[0].length - 2 : currentBip.y + 1;
 
 				for(let x = xMin; x <= xMax; x++ ) {
 					for(let y = yMin; y <= yMax; y++) {
-						console.log('X AND Y VALS:', x, y);
 						neighborsAlive += (bipsArray[x][y].alive * 1);
 					}
 				}
@@ -113,8 +112,6 @@
 			let xSize = ctx.canvas.width / scale;
 			let ySize = ctx.canvas.height / scale;
 			let bips = initializeBips(xSize, ySize);
-			console.log('BIPS YALL:', bips);
-			console.log('INNER ARRAY:', bips[0]);
 			drawBoard(ctx, bips)
 		</script>
 	</body>
