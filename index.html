@@ -19,11 +19,19 @@
 			<input id='ypos' type='text'/>
 		</div>
 		<div>
+			<label>Time in Seconds</label>
+			<input id='time' type='text'/>
+		</div>
+		<div>
 			<button onclick=handleFlipBipClick()>Flip Bip</button>
 		</div>
 		<div>
 			<button onclick=handleIterationClick()>Iterate</button>
 		</div>
+		<div>
+			<button onclick=handleSetIntervalClick()>Begin Interval</button>
+		</div>
+
 		<script>
 			function handleGridClick(event) {
 				let xPos = Math.floor((Math.floor(event.layerX) - 1)/scale);
@@ -54,6 +62,16 @@
 			function handleIterationClick() {
 				bips = repopulateBips(bips);
 				refreshBoard(ctx, bips);
+			}
+
+			function handleSetIntervalClick() {
+				let time = parseInt(document.getElementById('time').value)
+				setRefreshInterval(time);
+			}
+
+			function setRefreshInterval(time) {
+				let timeInMilliseconds =  time * 1000
+				setInterval(handleIterationClick, timeInMilliseconds);
 			}
 
 			function clearBoard(ctx) {
