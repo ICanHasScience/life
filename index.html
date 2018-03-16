@@ -31,6 +31,9 @@
 		<div>
 			<button onclick=handleSetIntervalClick()>Begin Interval</button>
 		</div>
+		<div>
+			<button onclick=clearRefreshInterval()>Stop Interval</button>
+		</div>
 
 		<script>
 			function handleGridClick(event) {
@@ -71,7 +74,16 @@
 
 			function setRefreshInterval(time) {
 				let timeInMilliseconds =  time * 1000
-				setInterval(handleIterationClick, timeInMilliseconds);
+				interval = setInterval(handleIterationClick, timeInMilliseconds);
+				console.log('Interval:', interval);
+			}
+
+			function clearRefreshInterval() {
+				console.log('Clearing interval:', interval);
+				if(interval) {
+					clearInterval(interval);
+					interval = undefined;
+				}
 			}
 
 			function clearBoard(ctx) {
@@ -131,6 +143,8 @@
 				});
 				return newBips;
 			}
+
+			let interval;
 
 			let scale = 10;
 			let ctx = document.getElementById('main').getContext('2d');
