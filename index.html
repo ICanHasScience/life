@@ -34,6 +34,9 @@
 		<div>
 			<button onclick=clearRefreshInterval()>Stop Interval</button>
 		</div>
+		<div>
+			<button onclick=initializeBoard()>Clear Board</button>
+		</div>
 
 		<script>
 			function handleGridClick(event) {
@@ -41,6 +44,14 @@
 				let yPos = Math.floor((Math.floor(event.layerY) - 2)/scale);
 				bips = flipBip(xPos, yPos, bips);
 				refreshBoard(ctx, bips);
+			}
+
+			function initializeBoard() {
+				clearRefreshInterval();
+				let xSize = ctx.canvas.width / scale;
+				let ySize = ctx.canvas.height / scale;
+				bips = initializeBips(xSize, ySize);
+				drawBoard(ctx, bips)
 			}
 
 			function initializeBips(xSize, ySize, initialBips) {
@@ -68,12 +79,13 @@
 			}
 
 			function handleSetIntervalClick() {
-				let time = parseInt(document.getElementById('time').value)
+				let time = parseInt(document.getElementById('time').value) || .25
 				setRefreshInterval(time);
 			}
 
 			function setRefreshInterval(time) {
 				let timeInMilliseconds =  time * 1000
+				clearRefreshInterval();
 				interval = setInterval(handleIterationClick, timeInMilliseconds);
 				console.log('Interval:', interval);
 			}
@@ -149,10 +161,8 @@
 			let scale = 10;
 			let ctx = document.getElementById('main').getContext('2d');
 			ctx.canvas.addEventListener("click", handleGridClick);
-			let xSize = ctx.canvas.width / scale;
-			let ySize = ctx.canvas.height / scale;
-			let bips = initializeBips(xSize, ySize);
-			drawBoard(ctx, bips)
+			let bips = [];
+			initializeBoard();
 		</script>
 	</body>
 </html>
