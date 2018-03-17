@@ -79,7 +79,7 @@
 			}
 
 			function handleSetIntervalClick() {
-				let time = parseInt(document.getElementById('time').value) || .25
+				let time = parseFloat(document.getElementById('time').value) || .25
 				setRefreshInterval(time);
 			}
 
