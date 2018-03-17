@@ -103,12 +103,12 @@
 			}
 
 			function drawBoard(ctx, bips) {
-				drawGrid(ctx);
 				for(var xRows of bips) {
 					for(var b of xRows) {
-						drawBip(ctx, {x: b.x, y:b.y, s:scale, value: b.alive});
+						drawBip(ctx, {x: b.x, y:b.y, s:scale, value: b.alive, offColor:'darkgrey'});
 					}
 				}
+				drawGrid(ctx, 10, 10, 'black');
 			}
 
 			function refreshBoard(ctx, bips) {
